@@ -17,7 +17,9 @@ const loadCategory = async () => {
 
 
 const loadNews = async (catId) => {
-    console.log(catId);
+    // console.log(catId);
+
+    document.getElementById('loading-spiner').style.display = "block";
     const response = await fetch(`https://openapi.programming-hero.com/api/news/category/${catId}`);
     const data = await response.json();
     const allData = data.data;
@@ -26,6 +28,7 @@ const loadNews = async (catId) => {
     newsContainer.innerHTML = '';
 
     allData.forEach((item) => {
+        document.getElementById('loading-spiner').style.display = "none";
         const div = document.createElement("div");
         div.classList.add("singleNews")
         div.innerHTML = `
@@ -39,7 +42,7 @@ const loadNews = async (catId) => {
           </h2>
           <p>${item.details.slice(0, 200)}</p>
           <div class="card-actions justify-end">
-          <button class="btn">Details</button>
+          <button onclick="check('${item.title}')" class="btn">Details</button>
           </div>
         </div>
       </div>
@@ -49,6 +52,11 @@ const loadNews = async (catId) => {
         newsContainer.appendChild(div);
     });
 };
+
+
+const check = (Text) => {
+    console.log(Text);
+}
 
 const handleSearch = () => {
     const value = document.getElementById("search-box").value;
